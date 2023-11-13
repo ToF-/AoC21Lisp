@@ -8,20 +8,18 @@
                   (number-increases-acc depth remain))))))
     (number-increases-acc 999999 depths)))
 
-(defun number-increases-in-triplet-sums (depths)
-  (labels ((number-increases-acc (acc n depths)
-             (if (< (length depths) 3)
-               acc
-               (let* ((depth-a (car depths))
-                      (depth-b (cadr depths))
-                      (depth-c (caddr depths))
-                      (remain (cdr depths))
-                      (triplet-sum (+ depth-a depth-b depth-c)))
-                 (number-increases-acc 
-                   (+ acc (if (< n triplet-sum) 1 0))
-                   triplet-sum
-                   remain)))))
-    (number-increases-acc 0 999999 depths)))
+(defun number-increases-in-triplet-sums (depths-list)
+  (let* ((depths (make-array
+                   (length depths-list)
+                   :initial-contents depths-list))
+         (limit (- (length depths) 3)))
+    (progn (setf track 999999)
+           (setf acc 0)
+           (loop for i from 0 to (- (length depths) 3) do
+                 (let ((sum (+ (aref depths i) (aref depths (1+ i)) (aref depths (1+ (1+ i))))))
+                   (progn (setf acc (if (> sum track) (1+ acc) acc))
+                          (setf track sum))))
+           acc)))
 
 (defun read-integers (file-path)
   (with-open-file (file file-path :direction :input)
