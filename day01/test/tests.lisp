@@ -4,9 +4,8 @@
 
 (load "./src/sonar-sweep.lisp")
 
-(test number-increases-tells-the-number-of-increases-in-depth
-      (is (eql 7 (number-increases 
-                   '(199 200 208 210 200 207 240 269 260 263)))))
+(test number-of-increases-in-depth
+      (is (eql 7 (increases '(199 200 208 210 200 207 240 269 260 263)))))
 
 (test solve-puzzle-a-tells-the-number-of-increases-in-depth-in-the-input-file
       (is (eql 1791 (solve-puzzle-a "../data/day01.txt"))))
