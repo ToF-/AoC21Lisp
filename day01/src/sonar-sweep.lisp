@@ -1,30 +1,33 @@
+(defparameter *max-number* 999999)
+
 (defun increases (number-list)
   (let* ((limit (length number-list))
-         (numbers (make-array
-                    limit
-                    :initial-contents number-list)))
-    (progn
-      (setf track 999999)
-      (setf acc 0)
-      (loop for i from 0 to (1- limit) do
-            (progn
-              (setf n (aref numbers i))
-              (setf acc (if (> n track) (1+ acc) acc))
-              (setf track n)))
-      acc)))
+         (numbers (make-array limit
+                              :initial-contents number-list))
+         (prev *max-number*)
+         (result 0))
+    (loop for n across numbers do
+          (progn
+            (setf result (if (> n prev) (1+ result) result))
+            (setf prev n)))
+    result))
 
-(defun number-increases-in-triplet-sums (depths-list)
-  (let* ((depths (make-array
-                   (length depths-list)
-                   :initial-contents depths-list))
-         (limit (- (length depths) 3)))
-    (progn (setf track 999999)
-           (setf acc 0)
-           (loop for i from 0 to (- (length depths) 3) do
-                 (let ((sum (+ (aref depths i) (aref depths (1+ i)) (aref depths (1+ (1+ i))))))
-                   (progn (setf acc (if (> sum track) (1+ acc) acc))
-                          (setf track sum))))
-           acc)))
+(defun number-increases-in-triplet-sums (number-list)
+  (let* ((limit (- (length number-list) 3))
+         (numbers (make-array (+ limit 3)
+                              :initial-contents number-list))
+         (prev *max-number*)
+         (result 0))
+    (loop for i from 0 to limit do
+          (let* ((j (1+ i))
+                 (k (1+ j))
+                 (sum (+ (aref numbers i)
+                         (aref numbers j)
+                         (aref numbers k))))
+            (progn
+              (setf result (if (> sum prev) (1+ result) result))
+              (setf prev sum))))
+    result))
 
 (defun read-integers (file-path)
   (with-open-file (file file-path :direction :input)
