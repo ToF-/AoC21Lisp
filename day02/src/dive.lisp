@@ -1,3 +1,9 @@
+(require 'uiop)
+
+(defun read-command (s)
+  (multiple-value-bind (sym p)
+    (read-from-string s)
+    (cons sym (read-from-string s t nil :start p))))
 
 (defun position-depth (commands)
   (labels ((position-depth-acc (result commands)
@@ -37,10 +43,7 @@
 
 
 (defun read-commands-from-file (file-path)
-  (with-open-file (file file-path :direction :input)
-    (loop for command = (read file nil nil)
-          while command
-          collect (cons command (read file nil nil)))))
+  (mapcar #'read-command (uiop:read-file-lines file-path)))
 
 (defun solve-a (file-path)
   (let ((result (position-depth (read-commands-from-file file-path))))
