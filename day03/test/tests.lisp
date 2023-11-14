@@ -39,10 +39,10 @@
       (is (equalp '(1 1 0 1 0) (binary-complement '(0 0 1 0 1)))))
 
 (test solve-a-find-power-consumption
-      (is (eql 2967914 (solve-a "../../data/day03.txt"))))
+      (is (eql 2967914 (solve-a "../data/day03.txt"))))
 
-; (test solve-b-find-life-support-ratin
-;       (is (eql 0 (solve-b "../../data/day03.txt"))))
+(test solve-b-find-life-support-ratin
+      (is (eql 7041258 (solve-b "../data/day03.txt"))))
 
 (run!)
 

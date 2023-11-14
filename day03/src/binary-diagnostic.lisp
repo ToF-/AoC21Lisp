@@ -15,10 +15,9 @@
   (let* ((bits (mapcar (lambda (vec) (aref vec pos)) vectors))
          (ones (apply #'+ bits))
          (zeros (- (length vectors) ones)))
-    (progn (format t "ones:~d zeros:~d criterion:~d~%" ones zeros criterion)
-    (cond ((> ones zeros) 1)
-          ((< ones zeros) 0)
-          (t criterion)))))
+    (cond ((> ones zeros) (if (eql 1 criterion) 1 0))
+          ((< ones zeros) (if (eql 1 criterion) 0 1))
+          (t criterion))))
 
 (defun common-bits (vectors)
   (loop for n from 0 to (- (array-dimension (car vectors) 0) 1)
@@ -26,16 +25,11 @@
 
 (defun common-bits-narrow (vectors criterion)
   (labels ((common-bit (vectors pos criterion)
-                       (progn (format t "vectors:~s ~%pos:~d criterion:~d~%" vectors pos criterion)
-                              (if (eql 1 (length vectors))
+                       (if (eql 1 (length vectors))
                          (bit-vector-to-list (car vectors))
-                         (let* ((most (nth-common-bit pos vectors criterion))
-                                (least (
-                                (select (if (eql most least)
-                                          (criterion)
-                                          (if (eql 1 criterion) most least)))
+                         (let* ((select (nth-common-bit pos vectors criterion))
                                 (remain (remove-if-not (lambda (v) (eql select (aref v pos))) vectors)))
-                           (progn (format t "most:~d least:~d select:~d~%" most least select)(common-bit remain (+ 1 pos) criterion)))))))
+                           (common-bit remain (1+ pos) criterion)))))
     (common-bit vectors 0 criterion)))
 
 (defun transpose (l)
