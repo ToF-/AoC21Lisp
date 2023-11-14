@@ -14,9 +14,6 @@
 (test bit-vector-to-list-convert-bit-vector
       (is (equalp '(1 0 1 1) (bit-vector-to-list #*1011))))
 
-(test binary-string-to-list-converts-string
-      (is (equalp '(1 0 1 1) (binary-string-to-list "1011"))))
-
 (test binary-string-list-to-bit-vector-list-converts-list-of-string
         (is (equalp #*00100 (car *numbers*)))
         (is (equalp #*11110 (cadr *numbers*))))

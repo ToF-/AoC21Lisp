@@ -8,9 +8,6 @@
 (defun bit-vector-to-list (v)
   (coerce v 'list))
 
-(defun binary-string-to-list (s)
-  (mapcar #'digit-char-p (coerce s 'list)))
-
 (defun nth-common-bit (pos vectors criterion)
   (let* ((bits (mapcar (lambda (vec) (aref vec pos)) vectors))
          (ones (apply #'+ bits))
@@ -37,13 +34,6 @@
 
 (defun value (digits)
   (reduce (lambda (acc digit) (+ (* 2 acc) digit)) digits))
-
-(defun partition-bits (bits)
-  (reduce (lambda (acc digit)
-            (if (eql 0 digit)
-              (cons (cons 0 (car acc)) (cdr acc))
-              (cons (car acc) (cons 1 (cdr acc)))))
-          bits :initial-value (cons nil nil)))
 
 (defun binary-complement (bits)
   (mapcar (lambda (b) (- 1 b)) bits))
