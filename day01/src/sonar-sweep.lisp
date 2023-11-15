@@ -1,3 +1,4 @@
+(require 'uiop)
 (defparameter *max-number* 999999)
 
 (defun increases (number-list)
@@ -30,10 +31,7 @@
     result))
 
 (defun read-integers (file-path)
-  (with-open-file (file file-path :direction :input)
-    (loop for line = (read-line file nil)
-          while line
-          collect (parse-integer line))))
+  (mapcar #'parse-integer (uiop:read-file-lines file-path)))
 
 (defun solve-puzzle-a (file-path)
     (increases (read-integers file-path)))
