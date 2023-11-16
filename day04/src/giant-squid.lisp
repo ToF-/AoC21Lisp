@@ -23,4 +23,9 @@
            (n (length grids)))
       (make-array (list n 5 5) :initial-contents grids))))
 
+(defun grid-sum (grids i)
+  (labels ((num-or-zero (n) (if (null n) 0 n)))
+    (apply #'+ (loop for j below 5 collect
+                   (apply #'+ (loop for k below 5
+                                    collect (num-or-zero (aref grids i j k))))))))
 
