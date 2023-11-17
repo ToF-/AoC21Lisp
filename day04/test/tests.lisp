@@ -124,9 +124,9 @@
         (is (equalp 1924 (last-win (grid-results (car *numbers*) grids))))))
 
 (test solve-a-find-first-winner-with-puzzle
-      (is (equalp 64084 (solve-a "../data/day04.txt"))))
+      (is (equalp 64084 (solve 'a "../data/day04.txt"))))
 
 (test solve-b-find-last-winner-with-puzzle
-      (is (equalp 12833 (solve-b "../data/day04.txt"))))
+      (is (equalp 12833 (solve 'b "../data/day04.txt"))))
 (run!)
 
