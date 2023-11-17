@@ -15,10 +15,8 @@
 (defun create-grids (numbers)
   (labels ((create-grid-list (numbers)
                              (if (not (null numbers))
-                               (let* ((grid-numbers (subseq (cdr numbers) 0 5))
-                                      (remaining-numbers (subseq numbers 6)))
-                                 (cons grid-numbers
-                                       (create-grid-list remaining-numbers))))))
+                               (cons (subseq numbers 1 6)
+                                     (create-grid-list (subseq numbers 6))))))
     (let* ((grids (create-grid-list numbers))
            (n (length grids)))
       (make-array (list n 5 5) :initial-contents grids))))
