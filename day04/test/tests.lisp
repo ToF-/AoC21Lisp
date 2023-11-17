@@ -77,19 +77,56 @@
                        (2 0 12 3 7)))
                   *grids*)))
 
-(test access-to-a-grid-in-the-array
+(test after-finding-a-number-the-number-is-marked
       (let ((grids (copy-grids *grids*)))
         (progn
-          (setf (aref grids 2 1 3) nil)
-          (setf (aref grids 2 1 4) nil)
-          (is (equalp nil (aref grids 2 1 3))))))
+          (mark-number 8 grids)
+          (is (equalp nil (aref grids 0 1 0)))
+          (is (equalp nil (aref grids 1 2 1)))
+          (is (equalp nil (aref grids 2 2 1)))
+          (is (eql 292 (grid-sum 0 grids)))
+          (is (eql 316 (grid-sum 1 grids)))
+          (is (eql 317 (grid-sum 2 grids)))
+          )))
 
-(test grid-sum-yields-sum-of-numbers-in-a-grid
+(test after-marking-a-row-or-a-column
       (let ((grids (copy-grids *grids*)))
         (progn
-          (setf (aref grids 0 0 0) nil)
-          (setf (aref grids 0 1 1) nil)
-          (is (eql 276 (grid-sum grids 0))))))
+          (mark-number 22 grids)
+          (mark-number 13 grids)
+          (mark-number 17 grids)
+          (mark-number 11 grids)
+          (mark-number 0 grids)
+          (mark-number 14 grids)
+          (mark-number 10 grids)
+          (mark-number 18 grids)
+          (mark-number 22 grids)
+          (mark-number 2 grids)
+          (is (equalp T (winning-gridp 0 grids)))
+          (is (equalp nil (winning-gridp 1 grids)))
+          (is (equalp T (winning-gridp 2 grids)))
+          )))
 
+(test extracting-a-grid
+      (is (equalp '((22 13 17 11 0)
+                      (8 2 23 4 24)
+                      (21 9 14 16 7)
+                      (6 10 3 18 5)
+                      (1 12 20 15 19))
+                    (extract-grid 0 *grids*))))
+        
+(test finding-first-winner
+      (let ((grids (copy-grids *grids*)))
+      (is (equalp 4512 (first-win (grid-results (car *numbers*) grids))))))
+
+(test finding-last-winner
+      (let ((grids (copy-grids *grids*)))
+        (is (equalp 1924 (last-win (grid-results (car *numbers*) grids))))))
+
+(test solve-a-find-first-winner-with-puzzle
+      (is (equalp 64084 (solve-a "../data/day04.txt"))))
+
+(test solve-b-find-last-winner-with-puzzle
+      (is (equalp 12833 (solve-b "../data/day04.txt"))))
 (run!)
 
