@@ -1,0 +1,10 @@
+(require 'cl-ppcre)
+
+(defun read-coords (s-init)
+  (let* ((s-no-comma (cl-ppcre:regex-replace-all "," s-init " "))
+         (s (cl-ppcre:regex-replace-all "->" s-no-comma " ")))
+    (multiple-value-bind (x0 p1) (read-from-string s)
+      (multiple-value-bind (y0 p2) (read-from-string s t nil :start p1)
+        (multiple-value-bind (x1 p3) (read-from-string s t nil :start p2)
+          (let ((y1 (read-from-string s t nil :start p3)))
+            (list (cons x0 y0) (cons x1 y1))))))))
